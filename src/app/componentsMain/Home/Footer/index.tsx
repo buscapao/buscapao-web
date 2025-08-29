@@ -24,9 +24,9 @@ export default function Footer() {
                 Nossos contatos
               </span>
 
-              <a href="#" className="block mt-1 large">
+              <Link href="#" className="block mt-1 large">
                 (11) 99999-9999
-              </a>
+              </Link>
             </p>
 
             <ul className="mt-8 flex gap-6">
