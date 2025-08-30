@@ -58,15 +58,15 @@ const data = {
       icon: Circle,
       items: [
         {
-          title: 'Genesis',
+          title: 'item 4',
           url: '#',
         },
         {
-          title: 'Explorer',
+          title: 'item 5',
           url: '#',
         },
         {
-          title: 'Quantum',
+          title: 'item 6',
           url: '#',
         },
       ],
@@ -78,42 +78,18 @@ const data = {
       icon: Circle,
       items: [
         {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
+          title: 'teste 7',
           url: '#',
         },
       ],
     },
     {
-      title: 'Settings',
+      title: 'Lorem ipsum',
       url: '#',
       icon: Circle,
       items: [
         {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
+          title: 'teste 8',
           url: '#',
         },
       ],
