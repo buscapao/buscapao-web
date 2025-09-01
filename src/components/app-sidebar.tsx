@@ -14,6 +14,15 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { FaUserCog } from 'react-icons/fa';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from './ui/breadcrumb';
+import Link from 'next/link';
 
 // DADOS DO SIDEBAR - MUDAR PARA DADOS REAIS
 const data = {
