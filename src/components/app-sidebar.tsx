@@ -13,20 +13,21 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { FaUserCog } from 'react-icons/fa';
 
 // DADOS DO SIDEBAR - MUDAR PARA DADOS REAIS
 const data = {
   user: {
-    name: 'Shadcn',
-    email: 'm@example.com',
+    name: 'Leozin do back',
+    email: 'leogodoy.gamer2020@email.com',
     avatar: '/avatars/shadcn.jpg',
   },
   //DADOS DO PERFIL - MUDAR PARA DADOS REAIS
   teams: [
     {
-      name: 'Shadcn',
+      name: 'Leozin do back',
       logo: User,
-      plan: 'Enterprise',
+      plan: 'Admin',
     },
   ],
   //NAVEGAÇÃO PRINCIPAL - MUDAR PARA DADOS REAIS
@@ -84,13 +85,13 @@ const data = {
       ],
     },
     {
-      title: 'Lorem ipsum',
+      title: 'ADMIN',
       url: '#',
-      icon: Circle,
+      icon: FaUserCog,
       items: [
         {
-          title: 'teste 8',
-          url: '#',
+          title: 'Lista de varejos',
+          url: '/Dashboard/RetailList',
         },
       ],
     },

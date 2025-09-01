@@ -48,7 +48,7 @@ export default function FormSection(props: FormProps) {
         </div>
 
         {/* Coluna Formulário */}
-        <div className="p-6 sm:p-8 rounded-xl shadow-md w-full bg-white h-full flex flex-col justify-between">
+        <div className="p-6 sm:p-8 rounded-xl shadow-md w-full bg-card h-full flex flex-col justify-between">
           <h2 className="h2 mb-8">Cadastro de Mercado</h2>
 
           <div className="grid grid-cols-1 gap-6 w-full">

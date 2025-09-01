@@ -8,7 +8,7 @@ interface BenefitsItemProps {
 
 export default function BenefitsItem(props: BenefitsItemProps) {
   return (
-    <div className="bg-white   flex flex-col justify-between  p-4 rounded-2xl shadow-lg border ">
+    <div className="bg-card   flex flex-col justify-between  p-4 rounded-2xl shadow-lg border ">
       <h5 className="h4 text-primary-black text-xl font-semibold mb-2">
         {props.title}
       </h5>

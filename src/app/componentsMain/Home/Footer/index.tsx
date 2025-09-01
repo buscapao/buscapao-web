@@ -33,7 +33,7 @@ export default function Footer() {
               <Link
                 target="_black"
                 href="#"
-                className=" hover:opacity-75 hover:scale-110 transition duration-300"
+                className=" hover:opacity-75 hover:scale-110 hover:text-primary-hover transition duration-300"
               >
                 <li>
                   <FaFacebook size={24} />
@@ -42,7 +42,7 @@ export default function Footer() {
 
               <Link
                 href={'#'}
-                className=" hover:opacity-75 hover:scale-110 transition duration-300"
+                className=" hover:opacity-75 hover:scale-110 hover:text-primary-hover transition duration-300"
               >
                 <li>
                   <FaInstagram
@@ -56,7 +56,7 @@ export default function Footer() {
                 <li>
                   <FaLinkedin
                     size={24}
-                    className=" hover:opacity-75 hover:scale-110 transition duration-300"
+                    className=" hover:opacity-75 hover:scale-110 hover:text-primary-hover transition duration-300"
                   />
                 </li>
               </Link>
@@ -118,7 +118,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-100 pt-12">
+        <div className="mt-12 border-t border-gray-200 pt-12">
           {/* Copyright */}
           <div className="sm:flex sm:items-center sm:justify-between">
             <ul className="flex flex-wrap gap-4">
