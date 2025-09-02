@@ -17,7 +17,7 @@ const formatBreadcrumbName = (name: string) => {
     .replace(/([A-Z])/g, ' $1')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
-};
+}; //! separar em eum componente?
 
 export default function MainBreadcrumb() {
   const pathname = usePathname();

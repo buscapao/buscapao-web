@@ -5,16 +5,18 @@ import '@/app/style/globals.css';
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   endIcon?: React.ReactNode;
+  className?: string;
 }
 
 export default function CustomInput({
   label,
   endIcon,
+  className,
   ...props
 }: CustomInputProps) {
   return (
-    <div>
-      <label className="p  block mb-2">{label}</label>
+    <div className={className}>
+      <label className="p block mb-2">{label}</label>
       <div className="relative flex w-full items-center">
         <Input
           {...props}

@@ -11,8 +11,14 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { MoreVertical, Plus, ListFilter } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function RetailList() {
+  const router = useRouter();
+  const handleCreateRetail = () => {
+    router.push('/Dashboard/NewRetail');
+  };
+
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
 
   const [selectAll, setSelectAll] = useState(false);
@@ -82,7 +88,7 @@ export default function RetailList() {
         {/* botoes */}
         <div className="flex gap-2">
           {/* Botão para cadastrar um novo varejo */}
-          <Button>
+          <Button onClick={handleCreateRetail}>
             <Plus className="mr-2 h-4 w-4" />
             Cadastrar varejo
           </Button>
