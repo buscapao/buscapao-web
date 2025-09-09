@@ -1,6 +1,5 @@
 'use client';
 
-import MainButton from '@/app/components/Buttons/MainButton';
 import CustomInput from '@/app/components/Form';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
@@ -85,9 +84,9 @@ export default function LoginPage() {
 
           <div>
             {/* Botão */}
-            <MainButton type="submit" className="block w-full">
+            <Button type="submit" className="block w-full">
               Entrar
-            </MainButton>
+            </Button>
           </div>
         </form>
 
@@ -99,9 +98,9 @@ export default function LoginPage() {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <div>
-          <MainButton className="block w-full" styleType="outline">
+          <Button className="block w-full" variant="outline">
             Login com google
-          </MainButton>
+          </Button>
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import MainButton from '@/app/components/Buttons/MainButton';
 import CustomInput from '@/app/components/Form';
 import { apiPost } from '@/services/api';
 import { RetailerPost } from '@/types/retailer';
+import { Button } from '@/components/ui/button';
+import { FaSave } from 'react-icons/fa';
 
 export default function NewRetail() {
   const router = useRouter();
@@ -131,9 +132,10 @@ export default function NewRetail() {
         </div>
 
         {/* Botão de submissão do formulário */}
-        <MainButton type="submit" className="mt-4">
+        <Button type="submit" className="mt-4">
+          <FaSave />
           Salvar
-        </MainButton>
+        </Button>
       </form>
     </div>
   );

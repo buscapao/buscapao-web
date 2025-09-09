@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import CustomForm from '@/app/components/Form/index';
-import MainButton from '@/app/components/Buttons/MainButton/index';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface FormProps {
   id: string;
@@ -91,15 +91,9 @@ export default function FormSection(props: FormProps) {
             </div>
 
             {/* Botão */}
-            <MainButton
-              size="lg"
-              variant="default"
-              styleType="primary"
-              responsive={false}
-              onClick={handleSubmit}
-            >
+            <Button size="lg" variant="default" onClick={handleSubmit}>
               Cadastrar Mercado
-            </MainButton>
+            </Button>
           </div>
         </div>
       </form>

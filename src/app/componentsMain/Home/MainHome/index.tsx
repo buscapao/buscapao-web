@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import '@/app/style/globals.css';
-import MainButton from '@/app/components/Buttons/MainButton';
+import { Button } from '@/components/ui/button';
 
 export default function MainHome() {
   return (
@@ -24,14 +24,9 @@ export default function MainHome() {
 
             {/* Botão */}
             <div className="mt-4 sm:mt-6 md:mt-8">
-              <MainButton
-                size="lg"
-                variant="default"
-                styleType="outline"
-                responsive={false}
-              >
+              <Button size="lg" variant="secondary" className="text-primary">
                 Lorem ipsum
-              </MainButton>
+              </Button>
             </div>
           </div>
         </div>

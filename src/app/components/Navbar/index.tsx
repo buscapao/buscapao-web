@@ -9,8 +9,8 @@ import {
 } from '@radix-ui/react-navigation-menu';
 import Link from 'next/link';
 import Image from 'next/image';
-import MainButton from '../Buttons/MainButton';
 import { MobileMenu } from '../Buttons/MobileButton';
+import { Button } from '@/components/ui/button';
 
 export function Navbar() {
   return (
@@ -56,9 +56,7 @@ export function Navbar() {
         {/* Botão de Login */}
         <div className="hidden md:block">
           <Link href="/LoginPage">
-            <MainButton variant="outline" size="lg">
-              Entrar
-            </MainButton>
+            <Button size="lg">Entrar</Button>
           </Link>
         </div>
 
