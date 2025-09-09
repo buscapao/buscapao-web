@@ -1,25 +1,33 @@
 'use client';
 
-import CustomInput from '@/app/components/Form';
 import { Button } from '@/components/ui/button';
-import { Eye, EyeOff } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { FaEyeSlash } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa6';
+
+const EyeIcon = ({ closed }: { closed: boolean }) => {
+    return closed ? <FaEyeSlash /> : <FaEye />;
+};
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const router = useRouter();
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    // Adicionar validação básica aqui no futuro
+    if (!email || !senha) {
+      console.log('Por favor, preencha todos os campos.');
+      return;
+    }
     console.log('Email:', email);
     console.log('Senha:', senha);
-    router.push('/Dashboard');
+    window.location.href = '/Dashboard';
   };
 
   return (
@@ -35,55 +43,61 @@ export default function LoginPage() {
               className="mx-auto"
             />
           </Link>
-          <h2 className="h4 mt-4 text-center leading-tight">
+          <h2 className="mt-4 text-center text-2xl font-bold leading-tight text-gray-900">
             Acesse sua conta
           </h2>
         </div>
 
         <form className="space-y-5" onSubmit={handleLogin}>
           {/* Input de Email */}
-          <div>
-            <CustomInput
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="email">Email do varejo</Label>
+            <Input
+              id="email"
+              className="bg-white"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              label="Email"
               type="email"
               placeholder="seu@email.com"
+              required
             />
           </div>
 
           {/* Campo de senha */}
           <div>
-            <CustomInput
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              label="Senha"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Sua senha"
-              endIcon={
-                <Button
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="password">Senha</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  className="bg-white"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Sua senha"
+                  required
+                />
+                <button
                   type="button"
-                  variant="ghost"
-                  size="icon"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="h-auto w-auto p-0 text-gray-500 hover:bg-transparent hover:text-gray-900"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-card-foreground"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </Button>
-              }
-            />
+                  <EyeIcon closed={showPassword} />
+                </button>
+              </div>
+            </div>
+
             <div className="mt-2 text-right">
-              <Link
+              <a
                 href="/forgot-password"
-                className="text-sm text-primary hover:underline"
+                className="small text-primary hover:underline"
               >
                 Esqueceu sua senha?
-              </Link>
+              </a>
             </div>
           </div>
 
           <div>
-            {/* Botão */}
             <Button type="submit" className="block w-full">
               Entrar
             </Button>
@@ -99,7 +113,7 @@ export default function LoginPage() {
         </div>
         <div>
           <Button className="block w-full" variant="outline">
-            Login com google
+            Login com Google
           </Button>
         </div>
       </div>

@@ -1,8 +1,9 @@
 'use client';
 import Image from 'next/image';
-import CustomForm from '@/app/components/Form/index';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 interface FormProps {
   id: string;
@@ -53,41 +54,57 @@ export default function FormSection(props: FormProps) {
 
           <div className="grid grid-cols-1 gap-6 w-full">
             {/* Nome do mercado */}
-            <CustomForm
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              label="Nome do varejo"
-              type="text"
-              placeholder="Mercado A"
-            />
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="name">Nome do varejo</Label>
+              <Input
+                className="bg-white"
+                id="name"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                type="text"
+                placeholder="Mercado A"
+              />
+            </div>
 
-            {/* Email */}
-            <CustomForm
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Email de contato"
-              type="email"
-              placeholder="email@example.com"
-            />
+            {/* Email do mercado */}
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="email">Email do varejo</Label>
+              <Input
+                className="bg-white"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="email@example.com"
+              />
+            </div>
 
             {/* Cidade  */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <CustomForm
-                value={cidade}
-                onChange={(e) => setCidade(e.target.value)}
-                label="Cidade"
-                type="text"
-                placeholder="Belo Horizonte"
-              />
+              {/* Cidade do mercado */}
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="cidade">Cidade</Label>
+                <Input
+                  className="bg-white"
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
+                  type="text"
+                  placeholder="Belo Horizonte"
+                />
+              </div>
 
               {/* Estado */}
-              <CustomForm
-                value={estado}
-                onChange={(e) => setEstado(e.target.value)}
-                label="Estado"
-                type="text"
-                placeholder="Ex: Minas Gerais"
-              />
+
+              {/* Cidade do mercado */}
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="estado">Estado</Label>
+                <Input
+                  className="bg-white"
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
+                  type="text"
+                  placeholder="Ex: Minas Gerais"
+                />
+              </div>
             </div>
 
             {/* Botão */}
