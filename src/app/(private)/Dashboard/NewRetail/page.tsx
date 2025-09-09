@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { FaSave } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
 
 export default function NewRetail() {
   const router = useRouter();
@@ -35,20 +36,37 @@ export default function NewRetail() {
     e.preventDefault();
 
     try {
-      // Log para depuração dos dados que estão sendo enviados
-      console.log('Enviando dados:', formData);
       // Chamada à API para criar um novo varejo
-      const response = await apiPost('/v1/backoffice/retails', formData);
-      // Log para depuração da resposta da API
-      console.log('Varejo criado com sucesso:', response);
+      await apiPost('/v1/backoffice/retails', formData);
 
-      // Alerta de sucesso e redirecionamento para a lista de varejos
-      alert('Varejo cadastrado com sucesso!');
+      // Alerta de sucesso
+      toast.success('Varejo criado com sucesso!', {
+        className: 'bg-green-100 text-green-900 border-green-200',
+        classNames: {
+            actionButton: 'bg-green-700 hover:bg-green-800 text-white'
+        }
+      });
+
+      // Redirecionamento para a lista de varejos
       router.push('/Dashboard/RetailList');
     } catch (error) {
-      // Tratamento de erro em caso de falha na chamada da API
+      // Tratamento de erro
       console.error('Erro ao criar varejo:', error);
-      alert('Erro ao cadastrar varejo. Verifique o console.');
+
+      // Alerta de erro com estilo e botão personalizados
+      toast.error('Erro ao criar varejo!', {
+        description: 'Não foi possível salvar os dados. Tente novamente.',
+        className: 'bg-red-100 text-red-900 border-red-200',
+        action: {
+          label: 'Fechar',
+          onClick: () => {},
+        },
+        classNames: {
+          error: 'bg-red-100 text-red-900 border-red-200',
+          actionButton:
+            'bg-red-700 text-red-100 hover:bg-red-800 hover:text-white',
+        },
+      });
     }
   };
 
