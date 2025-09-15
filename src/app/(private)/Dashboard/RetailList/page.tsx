@@ -1,5 +1,18 @@
 'use client';
+
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+
+import { MoreVertical, Plus, ListFilter } from 'lucide-react';
+import { FaTrash } from 'react-icons/fa6';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -8,154 +21,306 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Plus, ListFilter } from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+
+// Definição do tipo de dados
+type Retailer = {
+  id: string;
+  name: string;
+  clientNumber: string;
+  branches: number;
+  status: 'Ativo' | 'Inativo';
+};
+
+// Dados da tabela - MUDAR PARA DADOS REAIS
+const retailersData: Retailer[] = [
+  {
+    id: '1',
+    name: 'Cliente Exemplo A',
+    clientNumber: '001',
+    branches: 5,
+    status: 'Ativo',
+  },
+  {
+    id: '2',
+    name: 'Empresa Modelo B',
+    clientNumber: '002',
+    branches: 12,
+    status: 'Inativo',
+  },
+  {
+    id: '3',
+    name: 'Organização C',
+    clientNumber: '003',
+    branches: 2,
+    status: 'Ativo',
+  },
+  {
+    id: '4',
+    name: 'Varejo D',
+    clientNumber: '004',
+    branches: 8,
+    status: 'Ativo',
+  },
+  {
+    id: '5',
+    name: 'Loja E',
+    clientNumber: '005',
+    branches: 1,
+    status: 'Inativo',
+  },
+  {
+    id: '6',
+    name: 'Comércio F',
+    clientNumber: '006',
+    branches: 25,
+    status: 'Ativo',
+  },
+  {
+    id: '7',
+    name: 'Distribuidora G',
+    clientNumber: '007',
+    branches: 3,
+    status: 'Ativo',
+  },
+  {
+    id: '8',
+    name: 'Supermercado H',
+    clientNumber: '008',
+    branches: 15,
+    status: 'Ativo',
+  },
+  {
+    id: '9',
+    name: 'Magazine I',
+    clientNumber: '009',
+    branches: 7,
+    status: 'Inativo',
+  },
+  {
+    id: '10',
+    name: 'Atacado J',
+    clientNumber: '010',
+    branches: 4,
+    status: 'Ativo',
+  },
+  {
+    id: '11',
+    name: 'Ponto K',
+    clientNumber: '011',
+    branches: 1,
+    status: 'Ativo',
+  },
+];
 
 export default function RetailList() {
   const router = useRouter();
-  const handleCreateRetail = () => {
-    router.push('/Dashboard/NewRetail');
+  const [rowSelection, setRowSelection] = React.useState({});
+
+  // Função de click
+  const handleCreateRetail = () => router.push('/Dashboard/NewRetail');
+  const handleDeleteRetail = (id: string) => console.log('Excluir ID:', id);
+  const handleEditRetail = (id: string) =>
+    router.push(`/Dashboard/NewRetail/${id}`);
+  const handleEditStatusRetail = (id: string) =>
+    console.log('Alterar status do ID:', id);
+  const handleDeleteSelected = () => {
+    const selectedIds = table
+      .getFilteredSelectedRowModel()
+      .rows.map((row) => row.original.id);
+    console.log('Excluir todos os selecionados:', selectedIds);
   };
 
-  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
-
-  const [selectAll, setSelectAll] = useState(false);
-
-  // Dados da tabela - MUDAR PARA DADOS REAIS
-  const retailers = [
+  // Definição das colunas
+  const columns: ColumnDef<Retailer>[] = [
+    // Coluna de Checkbox
     {
-      id: '1',
-      name: 'Cliente Exemplo A',
-      clientNumber: '001',
-      branches: 5,
-      status: 'Ativo',
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Selecionar todas"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Selecionar linha"
+        />
+      ),
     },
+    // Suas colunas de dados
+    { accessorKey: 'name', header: 'NOME' },
+    { accessorKey: 'clientNumber', header: 'Nº CLIENTE' },
+    { accessorKey: 'branches', header: 'FILIAIS' },
+    { accessorKey: 'status', header: 'STATUS' },
+    // Coluna de Ações com seu DropdownMenu
     {
-      id: '2',
-      name: 'Empresa Modelo B',
-      clientNumber: '002',
-      branches: 12,
-      status: 'Inativo',
-    },
-    {
-      id: '3',
-      name: 'Organização C',
-      clientNumber: '003',
-      branches: 2,
-      status: 'Ativo',
+      id: 'actions',
+      header: () => <div className="text-right"></div>,
+      cell: ({ row }) => {
+        const retailer = row.original;
+        return (
+          <div className="text-right">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleEditRetail(retailer.id)}>
+                  Editar
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleEditStatusRetail(retailer.id)}
+                >
+                  Alterar status
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleDeleteRetail(retailer.id)}
+                >
+                  Excluir
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        );
+      },
     },
   ];
 
-  // Função checkbox da header
-  const handleSelectAll = () => {
-    const newSelectAllState = !selectAll;
-    setSelectAll(newSelectAllState);
-
-    if (newSelectAllState) {
-      setSelectedItems(new Set(retailers.map((r) => r.id)));
-    } else {
-      //limpa selecionados
-      setSelectedItems(new Set());
-    }
-  };
-
-  const handleSelectItem = (itemId: string, checked: boolean) => {
-    const newSelected = new Set(selectedItems);
-
-    if (checked) {
-      // adiciona o id se foi marcado
-      newSelected.add(itemId);
-    } else {
-      // remove o id se foi desmarcado
-      newSelected.delete(itemId);
-    }
-
-    // Atualiza o estado com a nova lista de itens selecionados
-    setSelectedItems(newSelected);
-    if (!checked && selectAll) {
-      setSelectAll(false);
-    }
-  };
+  // Controle da tabela
+  const table = useReactTable({
+    data: retailersData,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection,
+    },
+  });
 
   return (
     <div className="p-4 bg-card border rounded-xl m-4">
+      {/* Meu titulo */}
       <div className="ml-1.5 mb-2.5 mr-1.5 flex justify-between items-center">
-        {/* Título da página */}
         <h3 className="text-lg font-semibold">Varejos</h3>
-
-        {/* botoes */}
         <div className="flex gap-2">
-          {/* Botão para cadastrar um novo varejo */}
           <Button onClick={handleCreateRetail}>
-            <Plus className="mr-2 h-4 w-4" />
-            Cadastrar varejo
+            <Plus className="mr-2 h-4 w-4" /> Cadastrar varejo
           </Button>
-
-          {/* Botão para abrir os filtros da tabela */}
           <Button variant="outline">
-            <ListFilter className="mr-2 h-4 w-4" />
-            Filtro
+            <ListFilter className="mr-2 h-4 w-4" /> Filtro
           </Button>
         </div>
       </div>
 
-      {/* Container da Tabela */}
+      {/* CONTAINER DA TABELA */}
       <div className="bg-white border rounded-xl">
         <Table>
-          {/* Cabeçalho da Tabela */}
           <TableHeader>
-            <TableRow>
-              {/* selecionar todos*/}
-              <TableHead className="w-[80px]">
-                <Checkbox
-                  checked={selectAll}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead>
-
-              {/* titulo das outras colunas */}
-              <TableHead>NOME</TableHead>
-              <TableHead>Nº Cliente</TableHead>
-              <TableHead>Quantidade de Filiais</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right"></TableHead>
-            </TableRow>
-          </TableHeader>
-
-          {/* Corpo da Tabela */}
-          <TableBody>
-            {/* Linha de dados para cada varejo */}
-            {retailers.map((retailer) => (
-              <TableRow key={retailer.id}>
-                {/* checkbox individual da linha */}
-                <TableCell>
-                  <Checkbox
-                    // O checkbox está marcado se o ID do varejista estiver no Set 'selectedItems'
-                    checked={selectedItems.has(retailer.id)}
-                    // Quando clicado, chama a função para manipular a seleção do item
-                    onCheckedChange={(checked) =>
-                      handleSelectItem(retailer.id, checked === true)
-                    }
-                  />
-                </TableCell>
-
-                {/* dados do varejo */}
-                <TableCell>{retailer.name}</TableCell>
-                <TableCell>{retailer.clientNumber}</TableCell>
-                <TableCell>{retailer.branches}</TableCell>
-                <TableCell>{retailer.status}</TableCell>
-
-                {/* opçoes de ação */}
-                <TableCell className="text-right">
-                  <MoreVertical className="h-4 w-4 cursor-pointer" />
-                </TableCell>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Nenhum resultado encontrado.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Paginas */}
+      <div className="flex items-center justify-between space-x-2 p-2">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} linha(s) selecionadas.
+        </div>
+        <div className="flex items-center space-x-6">
+          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+            Página {table.getState().pagination.pageIndex + 1} de{' '}
+            {table.getPageCount()}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Anterior</span>
+              {'<'}
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Próximo</span>
+              {'>'}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* botão de excluir */}
+      <Button
+        className="mt-2"
+        variant={'destructive'}
+        disabled={Object.keys(rowSelection).length === 0}
+        onClick={handleDeleteSelected}
+      >
+        <FaTrash className="mr-2 h-3.5 w-3.5" />
+        Excluir ({table.getFilteredSelectedRowModel().rows.length})
+      </Button>
     </div>
   );
 }
