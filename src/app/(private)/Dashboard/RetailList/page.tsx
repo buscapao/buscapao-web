@@ -125,8 +125,7 @@ export default function RetailList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Função de click
-  const handleCreateRetail = () => router.push('/Dashboard/NewRetail');
-  const handleDeleteRetail = (id: string) => console.log('Excluir ID:', id);
+  const handleCreateRetail = () => router.push('/Dashboard/RetailDetailPage');
   const handleEditRetail = (id: string) =>
     router.push(`/Dashboard/NewRetail/${id}`);
   const handleEditStatusRetail = (id: string) =>
@@ -140,19 +139,30 @@ export default function RetailList() {
 
   // Definição das colunas
   const columns: ColumnDef<Retailer>[] = [
-    // Coluna de Checkbox
+    // Coluna de Checkbox - CORRIGIDA
     {
       id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Selecionar todas"
-        />
-      ),
+      header: ({ table }) => {
+        const isAllSelected = table.getIsAllPageRowsSelected();
+        const isSomeSelected = table.getIsSomePageRowsSelected();
+
+        return (
+          <Checkbox
+            checked={isAllSelected}
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Selecionar todas"
+            data-state={
+              isAllSelected
+                ? 'checked'
+                : isSomeSelected
+                ? 'indeterminate'
+                : 'unchecked'
+            }
+          />
+        );
+      },
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
@@ -160,12 +170,14 @@ export default function RetailList() {
           aria-label="Selecionar linha"
         />
       ),
+      enableSorting: false,
+      enableHiding: false,
     },
     // Suas colunas de dados
-    { accessorKey: 'name', header: 'NOME' },
-    { accessorKey: 'clientNumber', header: 'Nº CLIENTE' },
-    { accessorKey: 'branches', header: 'FILIAIS' },
-    { accessorKey: 'status', header: 'STATUS' },
+    { accessorKey: 'name', header: 'Nome' },
+    { accessorKey: 'clientNumber', header: 'Nº Cliente' },
+    { accessorKey: 'branches', header: 'Filiais' },
+    { accessorKey: 'status', header: 'Status' },
     // Coluna de Ações com seu DropdownMenu
     {
       id: 'actions',
@@ -188,11 +200,6 @@ export default function RetailList() {
                   onClick={() => handleEditStatusRetail(retailer.id)}
                 >
                   Alterar status
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleDeleteRetail(retailer.id)}
-                >
-                  Excluir
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
