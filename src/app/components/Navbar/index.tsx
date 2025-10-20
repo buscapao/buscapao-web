@@ -21,10 +21,10 @@ export function Navbar() {
           <Link href="/" className="block">
             <Image src="/logo/logo.png" alt="logo" width={100} height={100} />
           </Link>
+
           {/* Links de Navegação */}
           <NavigationMenu className="hidden md:block">
             <NavigationMenuList className="flex items-center gap-8">
-              {/* Link  Sobre nós */}
               <NavigationMenuItem>
                 <Link href="#about" passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -33,7 +33,6 @@ export function Navbar() {
                 </Link>
               </NavigationMenuItem>
 
-              {/* Link Beneficios */}
               <NavigationMenuItem>
                 <Link href="#benefits" passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -42,7 +41,6 @@ export function Navbar() {
                 </Link>
               </NavigationMenuItem>
 
-              {/* Link Form */}
               <NavigationMenuItem>
                 <Link href="#form" passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -53,9 +51,10 @@ export function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
+
         {/* Botão de Login */}
         <div className="hidden md:block">
-          <Link href="/LoginPage">
+          <Link href="/api/auth/login">
             <Button size="lg">Entrar</Button>
           </Link>
         </div>
@@ -66,7 +65,7 @@ export function Navbar() {
             { label: 'Sobre nós', href: '#about', type: 'link' },
             { label: 'Benefícios', href: '#benefits', type: 'link' },
             { label: 'Seja um parceiro', href: '#form', type: 'link' },
-            { label: 'Entrar', href: '/LoginPage', type: 'button' },
+            { label: 'Entrar', href: '/api/auth/login', type: 'button' },
           ]}
         />
       </div>

@@ -1,7 +1,6 @@
 'use client';
 
-import { ChevronsUpDown, Headphones, LogOut, User } from 'lucide-react';
-
+import { ChevronsUpDown, Headphones, User } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -17,17 +16,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser() {
+  const { user, isLoading } = useUser();
   const { isMobile } = useSidebar();
+
+  if (isLoading || !user) return null;
 
   return (
     <SidebarMenu>
@@ -42,9 +38,9 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={user.picture ?? ''} alt={user.name ?? ''} />
                 <AvatarFallback className="rounded-lg bg-primary">
-                  CN
+                  {user.name?.charAt(0) ?? 'U'}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -54,6 +50,7 @@ export function NavUser({
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? 'bottom' : 'right'}
@@ -61,23 +58,24 @@ export function NavUser({
             sideOffset={4}
           >
             <DropdownMenuGroup>
-              {/*Ajuda*/}
               <DropdownMenuItem>
                 <User />
                 Perfil
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-
-              {/*Suporte*/}
               <DropdownMenuItem>
                 <Headphones />
                 Suporte
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+
+            <DropdownMenuItem asChild>
+              <Link href="/api/auth/logout" className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Sair
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
